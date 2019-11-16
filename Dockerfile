@@ -24,7 +24,7 @@ RUN echo "deb http://deb.debian.org/debian/ unstable main" > /etc/apt/sources.li
  printf 'Package: *\nPin: release a=unstable\nPin-Priority: 90\n' > /etc/apt/preferences.d/limit-unstable
 
 RUN apt update \
- && apt install -y --no-install-recommends wireguard-tools iptables nano net-tools wget tar apt-utils ca-certificates curl \
+ && apt install -y --no-install-recommends wireguard-tools iptables nano net-tools wget tar apt-utils ca-certificates curl iperf3 \
  && apt clean \
  && wget $UDPSPEEDER_DL_ADRESS -O $UDPSPEEDER_FILE_NAME \
  && tar -zxvf $UDPSPEEDER_FILE_NAME \
