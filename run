@@ -28,6 +28,7 @@ if [[ -z $interfaces ]]; then
     wg genkey | tee sprivatekey | wg pubkey > spublickey
     wg genkey | tee cprivatekey | wg pubkey > cpublickey
 # 生成服务端配置文件
+mkdir -p /etc/wireguard
 cat <<EOF >/etc/wireguard/wg0.conf
 [Interface]
 PrivateKey = $(cat sprivatekey)
@@ -44,6 +45,7 @@ AllowedIPs = 10.0.0.2/24,$LANRANGE
 EOF
 
 # 生成简洁的客户端配置
+
 cat <<EOF >/scripts/client.conf
 [Interface]
 PrivateKey = $(cat cprivatekey)
