@@ -34,7 +34,7 @@ PrivateKey = $(cat sprivatekey)
 Address = 10.0.0.1/24
 PostUp   = 
 PostDown = 
-ListenPort = $port
+ListenPort = $SERVER_PORT
 DNS = 8.8.8.8
 MTU = $mtu
 
@@ -55,7 +55,7 @@ DNS = 8.8.8.8
 
 [Peer]
 PublicKey = $(cat spublickey)
-Endpoint = $wanip:$port
+Endpoint = $wanip:$SERVER_PORT
 AllowedIPs = 0.0.0.0/0
 PersistentKeepalive = 25
 
@@ -63,6 +63,7 @@ EOF
     exit 1
 fi
 
+interfaces=`find /etc/wireguard -type f`
 # 启动接口
 for interface in $interfaces; do
     echo "$(date): Starting Wireguard $interface"
@@ -77,6 +78,7 @@ iptables -A FORWARD --protocol tcp --tcp-flags SYN,RST SYN --jump TCPMSS --clamp
 exit 0
 
 # Handle shutdown behavior
+# 处理关机行为
 finish () {
     echo "$(date): Shutting down Wireguard"
     for interface in $interfaces; do
@@ -87,14 +89,16 @@ finish () {
     exit 0
 }
 
-# 启动UDPspeedv2进程和udp2raw-tunnel进程
+# boot udpspeedv2 and udp2raw
+# 启动UDPspeedv2进程和udp2raw进程
 boot_udptool () {
   
   UDPSPEED_PORT=`expr $SERVER_PORT + 99`
   /usr/bin/speederv2 -s -l 127.0.0.1:$UDPSPEED_PORT -r 127.0.0.1:$SERVER_PORT -f$FEC_OPTIONS --mode 0 /dev/sdtout 2>&1 &
   UDP2RAW_PORT=$SERVER_PORT
-  /usr/bin/udp2raw-tunnel -s -l 0.0.0.0:$UDP2RAW_PORT -r 127.0.0.1:$UDPSPEED_PORT  --raw-mode faketcp -k $PASSWORD /dev/sdtout 2>&1
+  /usr/bin/udp2raw -s -l 0.0.0.0:$UDP2RAW_PORT -r 127.0.0.1:$UDPSPEED_PORT  --raw-mode faketcp -k $PASSWORD /dev/sdtout 2>&1
 }
+
 boot_udptool
 
 trap finish SIGTERM SIGINT SIGQUIT
