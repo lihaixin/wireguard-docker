@@ -1,7 +1,7 @@
 FROM debian:stretch
 MAINTAINER sanjin
 
-ENV DOMAIN = ""
+ENV DOMAIN=""
 ENV SERVER_PORT = 15903
 ENV LANRANGE = "192.168.1.0/24"
 
