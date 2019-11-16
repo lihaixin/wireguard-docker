@@ -74,18 +74,6 @@ done
 iptables -A FORWARD --protocol tcp --tcp-flags SYN,RST SYN --jump TCPMSS --clamp-mss-to-pmtu
 # exit 0
 
-# Handle shutdown behavior
-# 处理关机行为
-finish () {
-    echo "$(date): Shutting down Wireguard"
-    for interface in $interfaces; do
-        wg-quick down $interface
-    done
-#    iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
-    iptables -D FORWARD --protocol tcp --tcp-flags SYN,RST SYN --jump TCPMSS --clamp-mss-to-pmtu
-    exit 0
-}
-
 # boot udpspeedv2 and udp2raw
 # 启动UDPspeedv2进程和udp2raw进程
 boot_udptool () {
@@ -98,6 +86,18 @@ boot_udptool () {
 
 boot_udptool
 cat /scripts/client.conf
+
+# Handle shutdown behavior
+# 处理关机行为
+finish () {
+    echo "$(date): Shutting down Wireguard"
+    for interface in $interfaces; do
+        wg-quick down $interface
+    done
+#    iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+    iptables -D FORWARD --protocol tcp --tcp-flags SYN,RST SYN --jump TCPMSS --clamp-mss-to-pmtu
+    exit 0
+}
 
 trap finish SIGTERM SIGINT SIGQUIT
 
