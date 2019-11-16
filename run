@@ -28,23 +28,23 @@ if [[ -z $interfaces ]]; then
     wg genkey | tee sprivatekey | wg pubkey > spublickey
     wg genkey | tee cprivatekey | wg pubkey > cpublickey
 # 生成服务端配置文件
-cat <<EOF >wg0.conf
+cat <<EOF >/etc/wireguard/wg0.conf
 [Interface]
 PrivateKey = $(cat sprivatekey)
 Address = 10.0.0.1/24
-PostUp   = 
-PostDown = 
+PostUp   = iptables -t nat -A POSTROUTING -o eth0 -s $LANRANGE -j MASQUERADE;iptables -t nat -A POSTROUTING -o eth0 -s 10.0.0.0/24 -j MASQUERADE
+PostDown = iptables -t nat -D POSTROUTING -o eth0 -s $LANRANGE -j MASQUERADE;iptables -t nat -D POSTROUTING -o eth0 -s 10.0.0.0/24 -j MASQUERADE
 ListenPort = $SERVER_PORT
 DNS = 8.8.8.8
 MTU = $mtu
 
 [Peer]
 PublicKey = $(cat cpublickey)
-AllowedIPs = 10.0.0.2/32
+AllowedIPs = 10.0.0.2/24,$LANRANGE
 EOF
 
 # 生成简洁的客户端配置
-cat <<EOF >client.conf
+cat <<EOF >/scripts/client.conf
 [Interface]
 PrivateKey = $(cat cprivatekey)
 Address = 10.0.0.2/24
@@ -72,10 +72,10 @@ done
 
 # Add masquerade rule for NAT'ing VPN traffic bound for the Internet
 # 增加伪装规则和MSS
-echo "Adding iptables NAT rule"
-iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+# echo "Adding iptables NAT rule"
+# iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 iptables -A FORWARD --protocol tcp --tcp-flags SYN,RST SYN --jump TCPMSS --clamp-mss-to-pmtu
-exit 0
+# exit 0
 
 # Handle shutdown behavior
 # 处理关机行为
@@ -100,6 +100,7 @@ boot_udptool () {
 }
 
 boot_udptool
+cat /scripts/client.conf
 
 trap finish SIGTERM SIGINT SIGQUIT
 
