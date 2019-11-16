@@ -23,10 +23,9 @@ get_ip
 mkdir -p /etc/wireguard
 interfaces=`find /etc/wireguard -type f`
 if [[ -z $interfaces ]]; then
-    echo "$(date): Interface not found in /etc/wireguard" >&2
-    
-	# 然后开始生成 密匙对(公匙+私匙)。
-   	wg genkey | tee sprivatekey | wg pubkey > spublickey
+    	echo "$(date): Interface not found in /etc/wireguard" >&2
+    	# 然后开始生成 密匙对(公匙+私匙)。
+    	wg genkey | tee sprivatekey | wg pubkey > spublickey
     	wg genkey | tee cprivatekey | wg pubkey > cpublickey
 	cat <<EOF >/etc/wireguard/wg0.conf
 	[Interface]
@@ -35,12 +34,12 @@ if [[ -z $interfaces ]]; then
 	PostUp   = iptables -t nat -A POSTROUTING -o eth0 -s $LANRANGE -j MASQUERADE;iptables -t nat -A POSTROUTING -o eth0 -s 10.0.0.0/24 -j MASQUERADE
 	PostDown = iptables -t nat -D POSTROUTING -o eth0 -s $LANRANGE -j MASQUERADE;iptables -t nat -D POSTROUTING -o eth0 -s 10.0.0.0/24 -j MASQUERADE
 	ListenPort = $SERVER_PORT
-	DNS = 8.8.8.8
 	MTU = $mtu
 
 	[Peer]
 	PublicKey = $(cat cpublickey)
 	AllowedIPs = 10.0.0.2/24,$LANRANGE
+	
 	EOF
 
 	# 生成简洁的客户端配置
@@ -48,7 +47,6 @@ if [[ -z $interfaces ]]; then
 	[Interface]
 	PrivateKey = $(cat cprivatekey)
 	Address = 10.0.0.2/24
-	DNS = 8.8.8.8
 	#  MTU = $mtu
 	#  PreUp =  start   .\route\routes-up.bat
 	#  PostDown = start  .\route\routes-down.bat
@@ -58,7 +56,7 @@ if [[ -z $interfaces ]]; then
 	Endpoint = $wanip:$SERVER_PORT
 	AllowedIPs = 0.0.0.0/0
 	PersistentKeepalive = 25
-
+	
 	EOF
 fi
 
