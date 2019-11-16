@@ -84,7 +84,7 @@ finish () {
     for interface in $interfaces; do
         wg-quick down $interface
     done
-    iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+#    iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
     iptables -D FORWARD --protocol tcp --tcp-flags SYN,RST SYN --jump TCPMSS --clamp-mss-to-pmtu
     exit 0
 }
