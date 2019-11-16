@@ -30,7 +30,7 @@ RUN apt update \
  && wget $UDP2RAW_DL_ADRESS -O $UDP2RAW_FILE_NAME \
  && tar -zxvf $UDP2RAW_FILE_NAME \
  && find ./ -type f -not -name "$UDP2RAW_BIN_NAME" -delete \
- && mv "/home/$UDP2RAW_BIN_NAME" /usr/bin/udp2raw \
+ && mv "/home/$UDP2RAW_BIN_NAME" /usr/bin/udp2raw
 
 WORKDIR /scripts
 ENV PATH="/scripts:${PATH}"
