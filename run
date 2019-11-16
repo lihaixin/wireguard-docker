@@ -86,9 +86,9 @@ boot_udptool () {
 
 boot_udptool
 
-echo -e "Client configure Private Key: $(cat cprivatekey)" 
-echo -e "Client configure IP Address ： 10.0.0.2/24"
-echo -e "Client configure Public Key ：$(cat spublickey)"
+echo -e "Client configure Private Key:\t$(cat cprivatekey)" 
+echo -e "Client configure IP Address :\t10.0.0.2/24"
+echo -e "Client configure Public Key :\t$(cat spublickey)"
 
 # Handle shutdown behavior
 # 处理关机行为
