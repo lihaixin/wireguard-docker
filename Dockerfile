@@ -35,6 +35,8 @@ RUN apt update \
  && find ./ -type f -not -name "$UDP2RAW_BIN_NAME" -delete \
  && mv "/home/$UDP2RAW_BIN_NAME" /usr/bin/udp2raw
 
+ENV FEC_OPTIONS "2:2 --timeout 1"
+
 WORKDIR /scripts
 ENV PATH="/scripts:${PATH}"
 COPY install-module /scripts
