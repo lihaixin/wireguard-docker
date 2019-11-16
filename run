@@ -20,6 +20,7 @@ get_ip() {
 get_ip
 
 # 查看是否有接口配置信息，没有就创建
+mkdir -p /etc/wireguard
 interfaces=`find /etc/wireguard -type f`
 if [[ -z $interfaces ]]; then
     echo "$(date): Interface not found in /etc/wireguard" >&2
@@ -28,7 +29,7 @@ if [[ -z $interfaces ]]; then
     wg genkey | tee sprivatekey | wg pubkey > spublickey
     wg genkey | tee cprivatekey | wg pubkey > cpublickey
 # 生成服务端配置文件
-mkdir -p /etc/wireguard
+
 cat <<EOF >/etc/wireguard/wg0.conf
 [Interface]
 PrivateKey = $(cat sprivatekey)
