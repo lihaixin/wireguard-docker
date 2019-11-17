@@ -21,7 +21,7 @@ ARG UDP2RAW_DL_ADRESS="https://github.com/wangyu-/udp2raw-tunnel/releases/downlo
 ARG UDP2RAW_BIN_NAME="udp2raw_$ARCH"
 
 RUN echo "deb http://deb.debian.org/debian/ unstable main" > /etc/apt/sources.list.d/unstable-wireguard.list && \
- printf 'Package: *\nPin: release a=unstable\nPin-Priority: 90\n' > /etc/apt/preferences.d/limit-unstable
+    printf 'Package: *\nPin: release a=unstable\nPin-Priority: 90\n' > /etc/apt/preferences.d/limit-unstable
 
 RUN apt update \
  && apt install -y --no-install-recommends wireguard-tools iptables nano net-tools wget tar apt-utils ca-certificates curl iperf3 \
@@ -35,7 +35,7 @@ RUN apt update \
  && find ./ -type f -not -name "$UDP2RAW_BIN_NAME" -delete \
  && mv "/home/$UDP2RAW_BIN_NAME" /usr/bin/udp2raw
 
-ENV FEC_OPTIONS "2:2 --timeout 1"
+ENV FEC_OPTIONS "2:2 -q4 -i 4 --timeout 1"
 
 WORKDIR /scripts
 ENV PATH="/scripts:${PATH}"
