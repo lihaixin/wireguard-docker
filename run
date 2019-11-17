@@ -84,9 +84,9 @@ iptables -A FORWARD --protocol tcp --tcp-flags SYN,RST SYN --jump TCPMSS --clamp
 # 启动UDPspeedv2进程和udp2raw进程
 boot_udptool () {
   UDPSPEED_PORT=`expr $SERVER_PORT + 100`
-  /usr/bin/speederv2 -s -l 127.0.0.1:$UDPSPEED_PORT -r 127.0.0.1:$SERVER_PORT -f$FEC_OPTIONS --mode 0 /dev/sdtout 2>&1 &
+  /usr/bin/speederv2 -s -l 0.0.0.0:$UDPSPEED_PORT -r 0.0.0.0:$SERVER_PORT -f$FEC_OPTIONS --mode 0 /dev/sdtout 2>&1 &
   UDP2RAW_PORT=$SERVER_PORT
-  /usr/bin/udp2raw -s -l 0.0.0.0:$UDP2RAW_PORT -r 127.0.0.1:$UDPSPEED_PORT  --raw-mode faketcp -k $PASSWORD /dev/sdtout 2>&1 &
+  /usr/bin/udp2raw -s -l 0.0.0.0:$UDP2RAW_PORT -r 0.0.0.0:$UDPSPEED_PORT  --raw-mode faketcp -k $PASSWORD /dev/sdtout 2>&1 &
   nohup iperf3 -s &
 }
 
