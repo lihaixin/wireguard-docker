@@ -88,13 +88,16 @@ boot_udptool () {
   UDP2RAW_PORT=$SERVER_PORT
   /usr/bin/udp2raw -s -l 0.0.0.0:$UDP2RAW_PORT -r 0.0.0.0:$UDPSPEED_PORT  --raw-mode faketcp -k $PASSWORD /dev/sdtout 2>&1 &
   nohup iperf3 -s &
+  sleep 3
 }
 
 boot_udptool
 
+echo -e "--------------------------------------------------"
 echo -e "Client configure Private Key:\t$(cat cprivatekey)" 
 echo -e "Client configure IP Address :\t10.0.0.2/24"
 echo -e "Client configure Public Key :\t$(cat spublickey)"
+echo -e "--------------------------------------------------"
 
 # Handle shutdown behavior
 # 处理关机行为
