@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ## The below is modified from https://github.com/activeeos/wireguard-docker
-
+## 下面语句参考 https://github.com/activeeos/wireguard-docker 修改
 
 # 在线获得服务器IP
 get_ip() {
@@ -19,16 +19,7 @@ get_ip() {
 
 get_ip
 
-# 查看是否有接口配置信息，没有就创建
-mkdir -p /etc/wireguard
-interfaces=`find /etc/wireguard -type f`
-if [[ -z $interfaces ]]; then
-    	echo "$(date): Interface not found in /etc/wireguard" >&2
-    	# 然后开始生成 密匙对(公匙+私匙)。
-    	wg genkey | tee sprivatekey | wg pubkey > spublickey
-    	wg genkey | tee cprivatekey | wg pubkey > cpublickey
-fi
-
+create_config() {
 cat <<EOF >/etc/wireguard/wg0.conf
 [Interface]
 PrivateKey = $(cat sprivatekey)
@@ -60,8 +51,22 @@ AllowedIPs = 0.0.0.0/0
 PersistentKeepalive = 25
 	
 EOF
+}
 
+# 查看是否有接口配置信息，没有就创建
+if [ ! -d "/etc/wireguard" ]; then
+  mkdir -p /etc/wireguard
+fi
 interfaces=`find /etc/wireguard -type f`
+if [[ -z $interfaces ]]; then
+    	echo "$(date): Interface not found in /etc/wireguard" >&2
+    	# 然后开始生成 密匙对(公匙+私匙)。
+    	wg genkey | tee sprivatekey | wg pubkey > spublickey
+    	wg genkey | tee cprivatekey | wg pubkey > cpublickey
+	create_config
+	interfaces=`find /etc/wireguard -type f`
+fi
+
 # 启动接口
 for interface in $interfaces; do
     echo "$(date): Starting Wireguard $interface"
