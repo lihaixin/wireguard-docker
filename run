@@ -20,7 +20,7 @@ get_ip() {
 get_ip
 
 create_config() {
-cat <<EOF >/etc/wireguard/wg0.conf
+cat <<EOF >/etc/wireguard/$WGNAME.conf
 [Interface]
 PrivateKey = $(cat sprivatekey)
 Address = 10.0.0.1/32
@@ -93,11 +93,13 @@ boot_udptool () {
 
 boot_udptool
 
-echo -e "--------------------------------------------------"
+echo -e "-----------------------------------------------------------"
+echo -e "the server ip:\t$wanip"
+echo -e "the server port:\t$SERVER_PORT"
 echo -e "Client configure Private Key:\t$(cat cprivatekey)" 
 echo -e "Client configure IP Address :\t10.0.0.2/24"
 echo -e "Client configure Public Key :\t$(cat spublickey)"
-echo -e "--------------------------------------------------"
+echo -e "-----------------------------------------------------------"
 
 # Handle shutdown behavior
 # 处理关机行为
