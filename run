@@ -31,7 +31,7 @@ MTU = $mtu
 
 [Peer]
 PublicKey = $(cat cpublickey)
-AllowedIPs = 10.0.0.2/24,$LANRANGE
+AllowedIPs = 10.0.0.0/24,$LANRANGE
 	
 EOF
 
