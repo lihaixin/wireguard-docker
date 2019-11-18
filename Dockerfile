@@ -8,6 +8,7 @@ ENV WGNAME wg3
 ENV mtu 1420
 ENV PASSWORD pwd
 ENV TZ=Asia/Shanghai
+ENV FEC_OPTIONS "2:2 -q4 -i4 --timeout 1 --report 10"
 WORKDIR /home
 
 ARG ARCH=amd64
@@ -37,7 +38,7 @@ RUN apt update \
  && find ./ -type f -not -name "$UDP2RAW_BIN_NAME" -delete \
  && mv "/home/$UDP2RAW_BIN_NAME" /usr/bin/udp2raw
 
-ENV FEC_OPTIONS "2:2 -q4 -i 4 --timeout 1"
+
 
 WORKDIR /scripts
 ENV PATH="/scripts:${PATH}"
