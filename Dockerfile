@@ -4,11 +4,12 @@ MAINTAINER sanjin
 ENV DOMAIN=""
 ENV SERVER_PORT 15903
 ENV LANRANGE "192.168.1.0/24"
+ENV WGSERVERIP "10.0.3.1"
 ENV WGNAME wg3
 ENV mtu 1420
 ENV PASSWORD pwd
 ENV TZ=Asia/Shanghai
-ENV FEC_OPTIONS "2:2 -q4 -i4 --timeout 1 --report 10 --fifo fifo.file"
+ENV FEC_OPTIONS "4:2 -i4 --timeout 2 --report 10 --fifo /tmp/fifo.file"
 WORKDIR /home
 
 ARG ARCH=amd64
