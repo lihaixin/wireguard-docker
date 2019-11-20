@@ -23,7 +23,7 @@ create_config() {
 cat <<EOF >/etc/wireguard/$WGNAME.conf
 [Interface]
 PrivateKey = $(cat sprivatekey)
-Address = 10.0.0.1/32
+Address = $WGSERVERIP
 PostUp   = iptables -t nat -A POSTROUTING -o eth0 -s $LANRANGE -j MASQUERADE;iptables -t nat -A POSTROUTING -o eth0 -s 10.0.0.0/24 -j MASQUERADE
 PostDown = iptables -t nat -D POSTROUTING -o eth0 -s $LANRANGE -j MASQUERADE;iptables -t nat -D POSTROUTING -o eth0 -s 10.0.0.0/24 -j MASQUERADE
 ListenPort = $SERVER_PORT
@@ -31,7 +31,7 @@ MTU = $mtu
 
 [Peer]
 PublicKey = $(cat cpublickey)
-AllowedIPs = 10.0.0.0/24,$LANRANGE
+AllowedIPs = $WGCLIENTIP,$LANRANGE
 	
 EOF
 
@@ -39,7 +39,7 @@ EOF
 cat <<EOF >/scripts/client.conf
 [Interface]
 PrivateKey = $(cat cprivatekey)
-Address = 10.0.0.2/32
+Address = $WGCLIENTIP
 #  MTU = $mtu
 #  PreUp =  start   .\route\routes-up.bat
 #  PostDown = start  .\route\routes-down.bat
