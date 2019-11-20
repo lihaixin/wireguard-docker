@@ -9,7 +9,7 @@ ENV WGNAME wg3
 ENV mtu 1420
 ENV PASSWORD pwd
 ENV TZ=Asia/Shanghai
-ENV FEC_OPTIONS "4:2 -i4 --timeout 2 --report 10 --fifo /tmp/fifo.file"
+ENV FEC_OPTIONS "4:4 --timeout 2 --fifo /tmp/fifo.file"
 WORKDIR /home
 
 ARG ARCH=amd64
