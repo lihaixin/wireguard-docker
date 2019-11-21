@@ -11,7 +11,8 @@ ENV WGNAME wg0
 ENV mtu 1200
 ENV PASSWORD pwd
 ENV TZ=Asia/Shanghai
-ENV FEC_OPTIONS "1:3,2:4,8:6,20:10 --timeout 1 --fifo /tmp/fifo.file"
+ENV FEC_OPTIONS "1:3,2:4,8:6,20:10"
+ENV TIMEOUT 1
 WORKDIR /home
 
 ARG ARCH=amd64
