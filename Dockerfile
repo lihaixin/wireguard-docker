@@ -10,7 +10,7 @@ ENV WGNAME wg0
 ENV mtu 1200
 ENV PASSWORD pwd
 ENV TZ=Asia/Shanghai
-ENV FEC_OPTIONS "2:4 --timeout 1 --fifo /tmp/fifo.file"
+ENV FEC_OPTIONS "1:3,2:4,8:6,20:10 --timeout 1 --fifo /tmp/fifo.file"
 WORKDIR /home
 
 ARG ARCH=amd64
@@ -20,7 +20,7 @@ ARG UDPSPEEDER_FILE_NAME=speederv2_binaries.tar.gz
 ARG UDPSPEEDER_DL_ADRESS="https://github.com/wangyu-/UDPspeeder/releases/download/$UDPSPEEDER_TAG_NAME/$UDPSPEEDER_FILE_NAME"
 ARG UDPSPEEDER_BIN_NAME="speederv2_$ARCH"
 
-ARG UDP2RAW_TAG_NAME=20181113.0
+ARG UDP2RAW_TAG_NAME=20190716.test.0
 ARG UDP2RAW_FILE_NAME=udp2raw_binaries.tar.gz
 ARG UDP2RAW_DL_ADRESS="https://github.com/wangyu-/udp2raw-tunnel/releases/download/$UDP2RAW_TAG_NAME/$UDP2RAW_FILE_NAME"
 ARG UDP2RAW_BIN_NAME="udp2raw_$ARCH"
