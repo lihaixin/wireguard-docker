@@ -86,7 +86,7 @@ boot_udptool () {
   UDPSPEED_PORT=`expr $SERVER_PORT + 100`
   /usr/bin/speederv2 -s -l 0.0.0.0:$UDPSPEED_PORT -r 0.0.0.0:$SERVER_PORT -f$FEC_OPTIONS --mode 0 /dev/sdtout 2>&1 &
   UDP2RAW_PORT=$SERVER_PORT
-  /usr/bin/udp2raw -s -l 0.0.0.0:$UDP2RAW_PORT -r 0.0.0.0:$UDPSPEED_PORT  --raw-mode faketcp -k $PASSWORD /dev/sdtout 2>&1 &
+  /usr/bin/udp2raw -s -l 0.0.0.0:$UDP2RAW_PORT -r 0.0.0.0:$UDPSPEED_PORT --fix-gro --raw-mode faketcp -k $PASSWORD /dev/sdtout 2>&1 &
   nohup iperf3 -s &
   sleep 3
 }
@@ -97,7 +97,7 @@ echo -e "-----------------------------------------------------------"
 echo -e "the server ip:\n$wanip"
 echo -e "the server port:\n$SERVER_PORT"
 echo -e "Client configure Private Key:\n$(cat cprivatekey)" 
-echo -e "Client configure IP Address :\n10.0.0.2/24"
+echo -e "Client configure IP Address :\n$WGCLIENTIP"
 echo -e "Client configure Public Key :\n$(cat spublickey)"
 echo -e "-----------------------------------------------------------"
 
