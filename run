@@ -95,8 +95,10 @@ boot_udptool () {
 boot_udptool
 
 echo -e "-----------------------------------------------------------"
-echo -e "the server ip:\n$wanip"
-echo -e "the server port:\n$SERVER_PORT"
+echo -e "the server ip:\t$wanip"
+echo -e "the wireguard server port:\t$SERVER_PORT /udp"
+echo -e "the udpspeeder server port:\t$UDPSPEED_PORT /udp"
+echo -e "the udp2raw server port:\t$UDP2RAW_PORT /tcp"
 echo -e "Client configure Private Key:\n$(cat cprivatekey)" 
 echo -e "Client configure IP Address :\n$WGCLIENTIP"
 echo -e "Client configure Public Key :\n$(cat spublickey)"
