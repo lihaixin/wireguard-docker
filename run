@@ -52,21 +52,6 @@ AllowedIPs = 0.0.0.0/0
 PersistentKeepalive = 25
 	
 EOF
-}
-
-# 查看是否有接口配置信息，没有就创建
-if [ ! -d "/etc/wireguard" ]; then
-  mkdir -p /etc/wireguard
-fi
-interfaces=`find /etc/wireguard -type f`
-if [[ -z $interfaces ]]; then
-    	echo "$(date): Interface not found in /etc/wireguard" >&2
-    	# 然后开始生成 密匙对(公匙+私匙)。
-    	wg genkey | tee sprivatekey | wg pubkey > spublickey
-    	wg genkey | tee cprivatekey | wg pubkey > cpublickey
-	create_config
-	interfaces=`find /etc/wireguard -type f`
-fi
 
 # 添加 2-9 号多用户配置
 for i in {2..9}
@@ -96,6 +81,22 @@ PersistentKeepalive = 25
 EOF
     cat /etc/wireguard/${WGNAME}_$i.conf | qrencode -o ${WGNAME}_$i.png
 done
+
+}
+
+# 查看是否有接口配置信息，没有就创建
+if [ ! -d "/etc/wireguard" ]; then
+  mkdir -p /etc/wireguard
+fi
+interfaces=`find /etc/wireguard -type f`
+if [[ -z $interfaces ]]; then
+    	echo "$(date): Interface not found in /etc/wireguard" >&2
+    	# 然后开始生成 密匙对(公匙+私匙)。
+    	wg genkey | tee sprivatekey | wg pubkey > spublickey
+    	wg genkey | tee cprivatekey | wg pubkey > cpublickey
+	create_config
+	interfaces=`find /etc/wireguard -type f`
+fi
 
 # 启动接口
 for interface in $interfaces; do
