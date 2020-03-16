@@ -31,6 +31,7 @@ MTU = $mtu
 
 [Peer]
 PublicKey = $(cat cpublickey)
+PresharedKey = $(cat presharedkey)
 AllowedIPs = $WGCLIENTIP,$LANRANGE
 	
 EOF
@@ -46,6 +47,7 @@ Address = $WGCLIENTIP
 
 [Peer]
 PublicKey = $(cat spublickey)
+PresharedKey = $(cat presharedkey)
 Endpoint = $wanip:$SERVER_PORT
 AllowedIPs = 0.0.0.0/0
 PersistentKeepalive = 25
@@ -89,6 +91,7 @@ if [[ -z $interfaces ]]; then
     	# 然后开始生成 密匙对(公匙+私匙)。
     	wg genkey | tee sprivatekey | wg pubkey > spublickey
     	wg genkey | tee cprivatekey | wg pubkey > cpublickey
+	wg genpsk > presharedkey
 	create_config
 	interfaces=`find /etc/wireguard -type f`
 fi
