@@ -130,6 +130,7 @@ echo -e "the udp2raw server port:\t$UDP2RAW_PORT /tcp"
 echo -e "Client configure Private Key:\n$(cat cprivatekey)" 
 echo -e "Client configure IP Address :\n$WGCLIENTIP"
 echo -e "Client configure Public Key :\n$(cat spublickey)"
+echo -e "QR code please access https://233boy.github.io/tools/qr.html and Paste client conf file"
 echo -e "-----------------------------------------------------------"
 
 # Handle shutdown behavior
