@@ -1,4 +1,4 @@
-FROM debian:stretch
+FROM debian:buster
 MAINTAINER sanjin
 
 ENV DOMAIN=""
