@@ -2,7 +2,7 @@
 
 ## The below is modified from https://github.com/activeeos/wireguard-docker
 ## 下面语句参考 https://github.com/activeeos/wireguard-docker 修改
-ip_list=(8 18 28 38 48 58 68 78 88 98)
+
 # 在线获得服务器IP
 get_ip() {
 	ip=$DOMAIN
@@ -75,7 +75,7 @@ Endpoint = $wanip:$SERVER_PORT
 AllowedIPs = 0.0.0.0/0
 PersistentKeepalive = 25
 EOF
-    cat /etc/wireguard/${WGNAME}_$i.conf | qrencode -o ${WGNAME}_$i.png
+    cat /scripts/${WGNAME}_$i.conf | qrencode -o ${WGNAME}_$i.png
 done
 }
 
