@@ -75,7 +75,7 @@ Endpoint = $wanip:$SERVER_PORT
 AllowedIPs = 0.0.0.0/0
 PersistentKeepalive = 25
 EOF
-    cat /scripts/${WGNAME}_$i.conf | qrencode -o ${WGNAME}_$i.png
+    # cat /scripts/${WGNAME}_$i.conf | qrencode -o ${WGNAME}_$i.png
 done
 }
 
@@ -114,7 +114,7 @@ boot_udptool () {
   UDP2RAW_PORT=$SERVER_PORT
   /usr/bin/udp2raw -s -l 0.0.0.0:$UDP2RAW_PORT -r 0.0.0.0:$UDPSPEED_PORT --fix-gro --raw-mode faketcp -k $PASSWORD /dev/sdtout 2>&1 &
   nohup iperf3 -s &
-  socat -v UDP-LISTEN:4000,fork PIPE &
+  socat -v UDP-LISTEN:4000,fork PIPE  &
   sleep 3
 }
 
@@ -128,6 +128,7 @@ echo -e "the udp2raw server port:\t$UDP2RAW_PORT /tcp"
 echo -e "Client configure Private Key:\n$(cat cprivatekey)" 
 echo -e "Client configure IP Address :\n$WGCLIENTIP"
 echo -e "Client configure Public Key :\n$(cat spublickey)"
+echo -e "QR code please access https://233boy.github.io/tools/qr.html and Paste client conf file"
 echo -e "-----------------------------------------------------------"
 
 # Handle shutdown behavior
