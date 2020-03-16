@@ -2,7 +2,7 @@
 
 ## The below is modified from https://github.com/activeeos/wireguard-docker
 ## 下面语句参考 https://github.com/activeeos/wireguard-docker 修改
-
+ip_list=(8 18 28 38 48 58 68 78 88 98)
 # 在线获得服务器IP
 get_ip() {
 	ip=$DOMAIN
@@ -20,6 +20,7 @@ get_ip() {
 get_ip
 
 create_config() {
+# 生成服务端配置文件
 cat <<EOF >/etc/wireguard/$WGNAME.conf
 [Interface]
 PrivateKey = $(cat sprivatekey)
@@ -66,6 +67,35 @@ if [[ -z $interfaces ]]; then
 	create_config
 	interfaces=`find /etc/wireguard -type f`
 fi
+
+# 添加 2-9 号多用户配置
+for i in {2..9}
+do
+    newlanip="`echo $WGCLIENTIP |awk -F. '{print $1 "." $2 "." $3}'`"
+    cip=$newlanip.${ip_list[$i]}
+    wg genkey | tee cprivatekey | wg pubkey > cpublickey
+
+    cat <<EOF >>/etc/wireguard/$WGNAME.conf
+[Peer]
+PublicKey = $(cat cpublickey)
+AllowedIPs = $cip/32,$LANRANGE
+
+EOF
+
+    cat <<EOF >/scripts/${WGNAME}_$i.conf
+[Interface]
+PrivateKey = $(cat cprivatekey)
+Address = $cip/24
+
+[Peer]
+PublicKey = $(cat spublickey)
+Endpoint = $wanip:$SERVER_PORT
+AllowedIPs = 0.0.0.0/0
+PersistentKeepalive = 25
+
+EOF
+    cat /etc/wireguard/${WGNAME}_$i.conf | qrencode -o ${WGNAME}_$i.png
+done
 
 # 启动接口
 for interface in $interfaces; do
