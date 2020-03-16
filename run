@@ -24,8 +24,8 @@ cat <<EOF >/etc/wireguard/$WGNAME.conf
 [Interface]
 PrivateKey = $(cat sprivatekey)
 Address = $WGSERVERIP
-PostUp   = iptables -t nat -A POSTROUTING -o eth0 -s $LANRANGE -j MASQUERADE;iptables -t nat -A POSTROUTING -o eth0 -s $WGRANGE -j MASQUERADE
-PostDown = iptables -t nat -D POSTROUTING -o eth0 -s $LANRANGE -j MASQUERADE;iptables -t nat -D POSTROUTING -o eth0 -s $WGRANGE -j MASQUERADE
+PostUp   = iptables -t nat -A POSTROUTING -o $WANNAME -s $LANRANGE -j MASQUERADE;iptables -t nat -A POSTROUTING -o $WANNAME -s $WGRANGE -j MASQUERADE
+PostDown = iptables -t nat -D POSTROUTING -o $WANNAME -s $LANRANGE -j MASQUERADE;iptables -t nat -D POSTROUTING -o $WANNAME -s $WGRANGE -j MASQUERADE
 ListenPort = $SERVER_PORT
 MTU = $mtu
 
