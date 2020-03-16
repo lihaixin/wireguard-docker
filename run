@@ -53,7 +53,7 @@ PersistentKeepalive = 25
 EOF
 
 # 添加 2-10 号多用户配置
-for i in {8 18 28 38 48 58 68 78 88 98}
+for i in { 8 18 28 38 48 58 68 78 88 98 }
 do
     newlanip="`echo $WGCLIENTIP |awk -F. '{print $1 "." $2 "." $3}'`"
     cip=$newlanip.$i
