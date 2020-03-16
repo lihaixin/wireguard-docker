@@ -1,12 +1,11 @@
 ## 如果主机系统上尚未安装wireguard内核模块，请使用以下第一个运行命令进行安装：
 
 # wireguard-docker
-Docker在Debian内核上的Wireguard设置意味着一个简单的个人VPN。当前有2个分支，stretch和buster。如果要使用内核模块安装功能，请使用与您的主机对应的分支。
-Wireguard setup in Docker on Debian  kernel meant for a simple personal VPN.
-There are currently 2 branches, __stretch__ and __buster__. Use the branch that corresponds to your host machine if the kernel module install feature is going to be used.
+Docker在Debian内核上的Wireguard设置意味着一个简单的个人VPN。当前有2个分支，stretch(debian9)和buster(debian10)。如果要使用内核模块安装功能，请使用与您的主机对应的分支。
 
 
-Wireguard-泊坞窗
+
+Wireguard-docker
 
 
 
