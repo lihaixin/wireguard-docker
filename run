@@ -65,7 +65,7 @@ do
     cat <<EOF >>/etc/wireguard/$WGNAME.conf
 [Peer]
 PublicKey = $(cat cpublickey)
-AllowedIPs = $cip/32,$LANRANGE
+AllowedIPs = $cip/32
 EOF
 
     cat <<EOF >/scripts/${WGNAME}_$i.conf
