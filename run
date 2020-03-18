@@ -62,7 +62,7 @@ do
     cip=$newlanip.$i
     wg genkey | tee cprivatekey | wg pubkey > cpublickey
 
-    cat <<EOF >>/etc/wireguard/$WGNAME.conf
+    #cat <<EOF >>/etc/wireguard/$WGNAME.conf
 [Peer]
 PublicKey = $(cat cpublickey)
 AllowedIPs = $cip/32
