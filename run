@@ -118,8 +118,8 @@ boot_udptool () {
   /usr/bin/speederv2 -s -l 0.0.0.0:$UDPSPEED_PORT -r 0.0.0.0:$SERVER_PORT -f$FEC_OPTIONS --sock-buf=10240 --fix-latency --fifo /tmp/fifo.file --timeout $TIMEOUT --mode 0  /dev/sdtout 2>&1 &
   UDP2RAW_PORT=$SERVER_PORT
   UDP2RAW_PORT_ONLY=`expr $SERVER_PORT + 100`
-  /usr/bin/udp2raw -s -l 0.0.0.0:$UDP2RAW_PORT -r 0.0.0.0:$UDPSPEED_PORT --fix-gro --raw-mode faketcp -k $PASSWORD /dev/sdtout 2>&1 &
-  /usr/bin/udp2raw -s -l 0.0.0.0:$UDP2RAW_PORT_ONLY -r 0.0.0.0:$SERVER_PORT --fix-gro --raw-mode faketcp -k $PASSWORD /dev/sdtout 2>&1 &
+  /usr/bin/udp2raw -s -l 0.0.0.0:$UDP2RAW_PORT -r 0.0.0.0:$UDPSPEED_PORT --fix-gro --raw-mode faketcp -k $PASSWORD --cipher-mode xor --auth-mode simple /dev/sdtout 2>&1 &
+  /usr/bin/udp2raw -s -l 0.0.0.0:$UDP2RAW_PORT_ONLY -r 0.0.0.0:$SERVER_PORT --fix-gro --raw-mode faketcp -k $PASSWORD --cipher-mode xor --auth-mode simple /dev/sdtout 2>&1 &
   nohup iperf3 -s &
   socat -v UDP-LISTEN:4000,fork PIPE &
   sleep 3
